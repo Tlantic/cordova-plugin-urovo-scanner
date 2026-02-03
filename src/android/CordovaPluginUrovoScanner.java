@@ -41,12 +41,16 @@ public class CordovaPluginUrovoScanner extends CordovaPlugin {
 		this.scanReceiver = new UrovoBroadcastReceiver();
 		this.webView.getContext().registerReceiver(this.scanReceiver, filter);
 
-		boolean powerOn = scanManager.getScannerState();
-		if (!powerOn) {
-			powerOn = scanManager.openScanner();
+		try {
+			boolean powerOn = scanManager.getScannerState();
+			if (!powerOn) {
+				powerOn = scanManager.openScanner();
 
+			}
+			scanManager.switchOutputMode(0);
+		} catch (Exception e) {
+			LOG.e(LOG_TAG, "Error initializing scanner: " + e.getMessage(), e);
 		}
-		scanManager.switchOutputMode(0);
 	}
 
 	@Override
